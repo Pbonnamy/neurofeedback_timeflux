@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>App</title>
+    <script defer src="/common/assets/js/timeflux.js"></script>
+    <script defer src="assets/app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        progress::-webkit-progress-bar {
+            background: #eee;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center h-screen">
+<div class="w-9/12">
+    <img src="assets/app.jpg" alt="App" class="w-full mb-10">
+    <div class="py-5 text-lg">
+        <span>Delta (&#948;) -</span>
+        <span id="delta-value">...</span>&nbsp;%
+        <progress id="delta-percent" class="w-full" value="0" max="100"></progress>
+    </div>
+    <div class="py-5 text-lg">
+        <span>Theta (&#952;) -</span>
+        <span id="theta-value">...</span>&nbsp;%
+        <progress id="theta-percent" class="w-full" value="0" max="100"></progress>
+    </div>
+    <div class="py-5 text-lg">
+        <span>Alpha (&#593;) -</span>
+        <span id="alpha-value">...</span>&nbsp;%
+        <progress id="alpha-percent" class="w-full" value="0" max="100"></progress>
+    </div>
+    <div class="py-5 text-lg">
+        <span>Beta (&#946;) -</span>
+        <span id="beta-value">...</span>&nbsp;%
+        <progress id="beta-percent" class="w-full" value="0" max="100"></progress>
+    </div>
+    <div class="py-5 text-lg">
+        <span>Gamma (&#947;) -</span>
+        <span id="gamma-value">...</span>&nbsp;%
+        <progress id="gamma-percent" class="w-full" value="0" max="100"></progress>
+    </div>
+    <div class="text-lg">
+        La bande pr&eacute;dominante est
+        <span id="dominant-wave" class="font-semibold capitalize">...</span>
+    </div>
+    <div class="text-lg">
+        La sujet est en &eacute;tat de
+        <span id="dominant-wave-property" class="font-semibold">...</span>
+    </div>
+</div>
+</body>
+</html>

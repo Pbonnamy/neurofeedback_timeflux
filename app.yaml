@@ -1,0 +1,74 @@
+graphs:
+  - id: Broker
+    nodes:
+      - id: proxy
+        module: timeflux.nodes.zmq
+        class: Broker
+
+  - id: Publisher
+    nodes:
+
+      - id: data_file
+        module: timeflux.nodes.hdf5
+        class: Replay
+        params:
+          filename: eeg.hdf5
+          keys:
+            - /filtered
+
+      - id: filter_frequencies
+        module: timeflux_dsp.nodes.filters
+        class: FilterBank
+        params:
+          filters:
+            'delta': { frequencies: [ 0.5, 4 ] }
+            'theta': { frequencies: [ 4.5, 8 ] }
+            'alpha': { frequencies: [ 8.5, 12 ] }
+            'beta': { frequencies: [ 13, 35 ] }
+            'gamma': { frequencies: [ 35, 50 ] }
+
+      - id: publish_filtered
+        module: timeflux.nodes.zmq
+        class: Pub
+        params:
+          topic: data_filtered
+
+      - id: publish_waves
+        module: timeflux.nodes.zmq
+        class: Pub
+        params:
+          topic: data_waves
+
+    edges:
+      - source: data_file:filtered
+        target: filter_frequencies
+      - source: filter_frequencies
+        target: publish_waves
+
+      - source: data_file:filtered
+        target: publish_filtered
+
+
+  - id: Subscriber
+    nodes:
+
+      - id: subscribe
+        module: timeflux.nodes.zmq
+        class: Sub
+        params:
+          topics:
+            - data_filtered
+            - data_waves
+
+      - id: ui
+        module: timeflux_ui.nodes.ui
+        class: UI
+        params:
+          routes:
+            app: www
+
+    edges:
+      - source: subscribe:data_filtered
+        target: ui:data_filtered
+      - source: subscribe:data_waves
+        target: ui:data_waves
